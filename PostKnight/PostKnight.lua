@@ -58,8 +58,8 @@ function updateScript(currentVersion, currentImageVersion)
 	end
 end
 
-currentVersion = "0.0.0"
-currentImageVersion = "0"
+currentVersion = "0.0.1"
+currentImageVersion = "1"
 force_update = false
 updateScript(currentVersion, currentImageVersion)
 
