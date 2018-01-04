@@ -41,7 +41,7 @@ function updateScript(currentVersion, currentImageVersion)
 			end
 			--print ("\n"..patchNotes.."\n")
 			if ((currentImageVersion < latestImageVersion or force_update == true)) then
-				httpDownload("https://raw.githubusercontent.combruno105/AnkuLua/master/PostKnight/updater.lua", localPath .."imageupdater.lua")
+				httpDownload("https://raw.githubusercontent.com/bruno105/AnkuLua/master/PostKnight/updater.lua", localPath .."imageupdater.lua")
 				if(force_update) then
 					toast("Repair will redownload image directory. Stand by...")
 				else
