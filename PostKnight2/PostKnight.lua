@@ -1,6 +1,72 @@
 Settings:setCompareDimension(true, 720)
 Settings:setScriptDimension(true, 720)
 
+
+
+function updateScript(currentVersion, currentImageVersion)
+	httpGetAvailable, httpGetResult = pcall(httpGet, "https://raw.githubusercontent.com/bruno105/AnkuLua/raw/master/PostKnight/version.lua")
+
+	if (httpGetAvailable) then
+
+		if(force_update) then
+			toast("Network Functions enabled; repairing files...")
+		else
+			toast("Network Functions enabled; checking for updates...")
+		end
+		--Following update code provided by seebadoris.
+		--Originally written by Paladiex: https://github.com/Paladiex
+		--Used with permission.
+
+		localPath = scriptPath()
+		imagePath = (localPath .. "image/")
+
+		--Don't need this currently.
+		--commonLib = loadstring(httpGet("https://raw.githubusercontent.com/AnkuLua/commonLib/master/commonLib.lua"))()
+
+		--- This checks the version number on github to see if an update is needed, then downloads the newest files ---
+		getNewestVersion = loadstring(httpGetResult)
+		latestVersion, latestImageVersion, patchNotes = getNewestVersion()
+		--currentVersion = dofile(localPath .."version.lua")
+
+		if (currentVersion >= latestVersion and force_update ~= true) then
+			toast ("You are running the most current version!")
+		else
+			httpDownload("https://raw.githubusercontent.com/bruno105/AnkuLua/master/PostKnight/PostKnight.lua", localPath .."PostKnight.lua")
+			if(force_update) then
+				toast ("Repairing version "..latestVersion)
+				print ("Repaired version "..currentVersion.." to version "..latestVersion)
+			else
+				toast ("Updating to version "..latestVersion)
+				print ("Updated from version "..currentVersion.." to version "..latestVersion)
+			end
+			--print ("\n"..patchNotes.."\n")
+			if ((currentImageVersion < latestImageVersion or force_update == true)) then
+				httpDownload("https://raw.githubusercontent.combruno105/AnkuLua/master/PostKnight/updater.lua", localPath .."imageupdater.lua")
+				if(force_update) then
+					toast("Repair will redownload image directory. Stand by...")
+				else
+					toast ("Update requires re-download of image directory. Stand by...")
+				end
+				dofile(localPath .."updater.lua")
+				--httpDownload("https://raw.githubusercontent.com/NonceCents/FFBEAutoZContinued/master/version.lua", localPath .."version.lua")
+			end
+			scriptExit("Press OK to exit, run script again to load new version.")
+		end
+	else
+		toast("Unable to check for updates.")
+		toast("Enable Network Functions in AnkuLua settings to allow update checks.")
+	end
+end
+
+currentVersion = "0.0.0"
+currentImageVersion = "0"
+force_update = false
+updateScript(currentVersion, currentImageVersion)
+
+
+
+
+
 -- ===========Dialog=========== --
  
 removePreference("spValueIndex")
