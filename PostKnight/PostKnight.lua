@@ -4,7 +4,7 @@ Settings:setScriptDimension(true, 720)
 
 
 function updateScript(currentVersion, currentImageVersion)
-	httpGetAvailable, httpGetResult = pcall(httpGet, "https://raw.githubusercontent.com/bruno105/AnkuLua/raw/master/PostKnight/version.lua")
+	httpGetAvailable, httpGetResult = pcall(httpGet, "https://raw.githubusercontent.com/bruno105/AnkuLua/master/PostKnight/version.lua")
 
 	if (httpGetAvailable) then
 
